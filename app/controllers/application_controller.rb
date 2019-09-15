@@ -38,14 +38,17 @@ end
 #Checks for correct username
 #No need to check password because we added #has_secure_password to the user model
 #has_secure_password adds the #authenticate method to your app to check password
+#Use the #authenticate method below to check for password match
 	post "/login" do
 	#your code here!
 	user = User.find_by(:username => params[:username])
-	if user
+	if user && user.authenticate(params[:password])
+		session[:user_id] = user.id
 		redirect "/success"
 	else
 		redirect "/failure"
 	end
+end
 
 #renders a success.erb page, which should be displayed once a user successfully
 #logs in
@@ -79,6 +82,7 @@ end
 		def current_user
 			User.find(session[:user_id])
 		end
+
 	end
 
 end
