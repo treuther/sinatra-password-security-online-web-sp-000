@@ -18,17 +18,33 @@ class ApplicationController < Sinatra::Base
 		erb :signup
 	end
 
+#Inputs new user. If saved, redirects to login. If not saved, redirects to failure
 	post "/signup" do
-		#your code here!
-	end
+	#your code here!
+  user = User.new(:username => params[:username], :password => params[:password])
+
+  if user.save
+    redirect "/login"
+  else
+    redirect "/failure"
+  end
+end
 
 #renders a form for logging in
 	get "/login" do
 		erb :login
 	end
 
+#Checks for correct username
+#No need to check password because we added #has_secure_password to the user model
+#has_secure_password adds the #authenticate method to your app to check password
 	post "/login" do
-		#your code here!
+	#your code here!
+	user = User.find_by(:username => params[:username])
+	if user
+		redirect "/success"
+	else
+		redirect "/failure"
 	end
 
 #renders a success.erb page, which should be displayed once a user successfully
