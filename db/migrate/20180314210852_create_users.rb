@@ -13,3 +13,4 @@ class CreateUsers < ActiveRecord::Migration[5.1]
     drop_table :users
   end
 end
+#When done filling in, run this mirgration using rake db:migrate
